@@ -21,25 +21,31 @@ import {
 
 function AddRecipe() {
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
   const {
-  recipes,
-  setRecipes,
-} = useContext(
-  RecipeContext
-);
+    addRecipe,
+  } = useContext(
+    RecipeContext
+  );
 
   /* POPUP */
 
-  const [popup, setPopup] =
+  const [popup,
+    setPopup] =
     useState(null);
 
   /* SEARCH */
 
-  const [ingredientSearch,
-    setIngredientSearch] =
-    useState("");
+  const [
+    ingredientSearch,
+
+    setIngredientSearch,
+
+  ] = useState("");
+
+  /* DATA BAHAN */
 
   const ingredientsData = [
 
@@ -56,121 +62,182 @@ function AddRecipe() {
 
   ];
 
-  const [recipeData,
-    setRecipeData] =
-    useState({
+  /* FORM */
 
-      title: "",
+  const [
+    recipeData,
 
-      image: "",
+    setRecipeData,
 
-      category: "",
+  ] = useState({
 
-      ingredients: [],
+    title: "",
 
-      instructions: [""],
+    image: "",
 
-      duration: {
-        hours: 0,
-        minutes: 0,
-      },
+    category: "",
 
-    });
+    ingredients: [],
+
+    instructions: [""],
+
+    duration: {
+
+      hours: 0,
+
+      minutes: 0,
+
+    },
+
+  });
 
   /* STEP */
 
-  const handleInstructionChange = (
-    index,
-    value
-  ) => {
+  const handleInstructionChange =
+    (
+      index,
+      value
+    ) => {
 
     const updated = [
+
       ...recipeData.instructions,
+
     ];
 
-    updated[index] = value;
+    updated[index] =
+      value;
 
     setRecipeData({
+
       ...recipeData,
-      instructions: updated,
+
+      instructions:
+        updated,
+
     });
 
   };
 
-  const addInstruction = () => {
+  const addInstruction =
+    () => {
 
     setRecipeData({
+
       ...recipeData,
+
       instructions: [
+
         ...recipeData.instructions,
+
         "",
+
       ],
+
     });
 
   };
 
   /* SAVE */
 
-  const handleSaveRecipe = () => {
+  const handleSaveRecipe =
+    () => {
 
-  if (
-    !recipeData.title ||
-    !recipeData.category ||
-    recipeData.ingredients.length === 0 ||
-    recipeData.instructions[0] === ""
-  ) {
+    if (
+
+      !recipeData.title ||
+
+      !recipeData.image ||
+
+      !recipeData.category ||
+
+      recipeData
+        .ingredients
+        .length === 0 ||
+
+      recipeData
+        .instructions[0]
+        === ""
+
+    ) {
+
+      setPopup({
+
+        type: "failed",
+
+        title: "Failed!",
+
+        message:
+          "Lengkapi data resep terlebih dahulu.",
+
+      });
+
+      return;
+    }
+
+    const newRecipe = {
+
+      title:
+        recipeData.title,
+
+      image:
+        recipeData.image,
+
+      category:
+        recipeData.category,
+
+      ingredients:
+        recipeData.ingredients,
+
+      instructions:
+        recipeData.instructions,
+
+      duration: {
+
+        hours:
+          recipeData
+            .duration
+            .hours,
+
+        minutes:
+          recipeData
+            .duration
+            .minutes,
+
+      },
+
+    };
+
+    addRecipe(
+      newRecipe
+    );
 
     setPopup({
 
-      type: "failed",
+      type: "success",
 
-      title: "Failed!",
+      title: "Success!",
 
       message:
-        "Lengkapi data resep terlebih dahulu.",
+        "Recipe berhasil disimpan.",
 
     });
 
-    return;
-  }
-
-  const newRecipe = {
-
-    id:
-      "rcp_" +
-      Date.now(),
-
-    ...recipeData,
-
   };
-
-  setRecipes([
-    ...recipes,
-    newRecipe,
-  ]);
-
-  setPopup({
-
-    type: "success",
-
-    title: "Success!",
-
-    message:
-      "Recipe berhasil disimpan.",
-
-  });
-
-};
 
   /* CLOSE POPUP */
 
-  const handleClosePopup = () => {
+  const handleClosePopup =
+    () => {
 
     if (
-      popup.type === "success"
+      popup.type
+      === "success"
     ) {
 
-      navigate("/my-recipes");
+      navigate(
+        "/my-recipes"
+      );
 
     }
 
@@ -180,16 +247,28 @@ function AddRecipe() {
 
   return (
 
-    <div className="add-recipe-page">
+    <div
+      className="
+        add-recipe-page
+      "
+    >
 
       {/* HEADER */}
 
-      <div className="recipe-header">
+      <div
+        className="
+          recipe-header
+        "
+      >
 
         <button
-          className="back-btn"
+          className="
+            back-btn
+          "
           onClick={() =>
-            navigate("/my-recipes")
+            navigate(
+              "/my-recipes"
+            )
           }
         >
 
@@ -205,19 +284,31 @@ function AddRecipe() {
 
       {/* FORM */}
 
-      <div className="recipe-form-modern">
+      <div
+        className="
+          recipe-form-modern
+        "
+      >
 
         {/* TITLE */}
 
         <input
           type="text"
-          placeholder="Nama resep"
-          value={recipeData.title}
+          placeholder="
+            Nama resep
+          "
+          value={
+            recipeData.title
+          }
           onChange={(e) =>
             setRecipeData({
+
               ...recipeData,
+
               title:
-                e.target.value,
+                e.target
+                  .value,
+
             })
           }
         />
@@ -226,13 +317,21 @@ function AddRecipe() {
 
         <input
           type="text"
-          placeholder="Cloudinary Signed URI"
-          value={recipeData.image}
+          placeholder="
+            Cloudinary Signed URI
+          "
+          value={
+            recipeData.image
+          }
           onChange={(e) =>
             setRecipeData({
+
               ...recipeData,
+
               image:
-                e.target.value,
+                e.target
+                  .value,
+
             })
           }
         />
@@ -240,12 +339,18 @@ function AddRecipe() {
         {/* CATEGORY */}
 
         <select
-          value={recipeData.category}
+          value={
+            recipeData.category
+          }
           onChange={(e) =>
             setRecipeData({
+
               ...recipeData,
+
               category:
-                e.target.value,
+                e.target
+                  .value,
+
             })
           }
         >
@@ -276,32 +381,51 @@ function AddRecipe() {
 
         </select>
 
-        {/* INGREDIENT SEARCH */}
+        {/* SEARCH BAHAN */}
 
-        <div className="ingredient-wrapper">
+        <div
+          className="
+            ingredient-wrapper
+          "
+        >
 
           <input
             type="text"
-            placeholder="Cari bahan..."
-            className="ingredient-search"
+            placeholder="
+              Cari bahan...
+            "
+            className="
+              ingredient-search
+            "
             onChange={(e) =>
               setIngredientSearch(
-                e.target.value
+                e.target
+                  .value
               )
             }
           />
 
-          <div className="ingredient-list">
+          {/* LIST */}
+
+          <div
+            className="
+              ingredient-list
+            "
+          >
 
             {ingredientsData
 
               .filter((item) =>
+
                 item
                   .toLowerCase()
                   .includes(
+
                     ingredientSearch
                       .toLowerCase()
+
                   )
+
               )
 
               .map((item) => (
@@ -313,34 +437,49 @@ function AddRecipe() {
                     recipeData.ingredients.includes(
                       item
                     )
-                      ? "active-ingredient"
-                      : ""
+
+                    ? "active-ingredient"
+
+                    : ""
+
                   }`}
                   onClick={() => {
 
                     if (
+
                       recipeData.ingredients.includes(
                         item
                       )
+
                     ) {
 
                       setRecipeData({
+
                         ...recipeData,
+
                         ingredients:
+
                           recipeData.ingredients.filter(
                             (ing) =>
                               ing !== item
                           ),
+
                       });
 
                     } else {
 
                       setRecipeData({
+
                         ...recipeData,
+
                         ingredients: [
+
                           ...recipeData.ingredients,
+
                           item,
+
                         ],
+
                       });
 
                     }
@@ -358,25 +497,38 @@ function AddRecipe() {
 
         </div>
 
-        {/* INSTRUCTION */}
+        {/* STEP */}
 
-        <div className="instruction-wrapper">
+        <div
+          className="
+            instruction-wrapper
+          "
+        >
 
           <h3>
             Langkah Memasak
           </h3>
 
           {recipeData.instructions.map(
-            (item, index) => (
+            (
+              item,
+              index
+            ) => (
 
               <textarea
                 key={index}
-                placeholder={`Langkah ${index + 1}`}
+                placeholder={`Langkah ${
+                  index + 1
+                }`}
                 value={item}
                 onChange={(e) =>
                   handleInstructionChange(
+
                     index,
-                    e.target.value
+
+                    e.target
+                      .value
+
                   )
                 }
               />
@@ -385,25 +537,45 @@ function AddRecipe() {
           )}
 
           <button
-            className="add-step-btn"
-            onClick={addInstruction}
+            className="
+              add-step-btn
+            "
+            onClick={
+              addInstruction
+            }
           >
+
             + Tambah Langkah
+
           </button>
 
         </div>
 
         {/* DURATION */}
 
-        <div className="duration-wrapper">
+        <div
+          className="
+            duration-wrapper
+          "
+        >
 
           <label>
             Waktu Memasak
           </label>
 
-          <div className="duration-row">
+          <div
+            className="
+              duration-row
+            "
+          >
 
-            <div className="duration-box">
+            {/* HOURS */}
+
+            <div
+              className="
+                duration-box
+              "
+            >
 
               <span>
                 Jam
@@ -412,25 +584,40 @@ function AddRecipe() {
               <input
                 type="number"
                 value={
-                  recipeData.duration.hours
+                  recipeData
+                    .duration
+                    .hours
                 }
                 onChange={(e) =>
                   setRecipeData({
+
                     ...recipeData,
+
                     duration: {
+
                       ...recipeData.duration,
+
                       hours:
                         Number(
-                          e.target.value
+                          e.target
+                            .value
                         ),
+
                     },
+
                   })
                 }
               />
 
             </div>
 
-            <div className="duration-box">
+            {/* MINUTES */}
+
+            <div
+              className="
+                duration-box
+              "
+            >
 
               <span>
                 Menit
@@ -439,19 +626,27 @@ function AddRecipe() {
               <input
                 type="number"
                 value={
-                  recipeData.duration
+                  recipeData
+                    .duration
                     .minutes
                 }
                 onChange={(e) =>
                   setRecipeData({
+
                     ...recipeData,
+
                     duration: {
+
                       ...recipeData.duration,
+
                       minutes:
                         Number(
-                          e.target.value
+                          e.target
+                            .value
                         ),
+
                     },
+
                   })
                 }
               />
@@ -465,8 +660,12 @@ function AddRecipe() {
         {/* SAVE */}
 
         <button
-          className="save-recipe-btn"
-          onClick={handleSaveRecipe}
+          className="
+            save-recipe-btn
+          "
+          onClick={
+            handleSaveRecipe
+          }
         >
 
           <FaSave />
@@ -485,7 +684,9 @@ function AddRecipe() {
           type={popup.type}
           title={popup.title}
           message={popup.message}
-          onClose={handleClosePopup}
+          onClose={
+            handleClosePopup
+          }
         />
 
       )}
@@ -495,4 +696,82 @@ function AddRecipe() {
   );
 }
 
-export default AddRecipe;
+const handleSaveRecipe =
+  () => {
+
+  if (
+
+    !recipeData.title ||
+
+    !recipeData.category ||
+
+    recipeData.ingredients
+      .length === 0 ||
+
+    recipeData.instructions[0]
+      === ""
+
+  ) {
+
+    setPopup({
+
+      type: "failed",
+
+      title: "Failed!",
+
+      message:
+        "Lengkapi data resep terlebih dahulu.",
+
+    });
+
+    return;
+  }
+
+  const newRecipe = {
+
+    title:
+      recipeData.title,
+
+    image:
+      recipeData.image,
+
+    category:
+      recipeData.category,
+
+    ingredients:
+      recipeData.ingredients,
+
+    instructions:
+      recipeData.instructions,
+
+    duration: {
+
+      hours:
+        recipeData.duration.hours,
+
+      minutes:
+        recipeData.duration.minutes,
+
+    },
+
+  };
+
+  addRecipe(
+    newRecipe
+  );
+
+  setPopup({
+
+    type: "success",
+
+    title: "Success!",
+
+    message:
+      "Recipe berhasil disimpan.",
+
+  });
+
+};
+
+export default
+  AddRecipe;

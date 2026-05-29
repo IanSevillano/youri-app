@@ -4,7 +4,18 @@ import {
   useState,
 } from "react";
 
+import {
+  FaArrowLeft,
+} from "react-icons/fa";
+
+import {
+  useNavigate,
+} from "react-router-dom";
+
 function About() {
+
+  const navigate =
+    useNavigate();
 
   const [
     showTutorialPopup,
@@ -98,54 +109,76 @@ function About() {
 
   /* AUTO SLIDE TEAM */
 
-useEffect(() => {
+  useEffect(() => {
 
-  const slider =
-    sliderRef.current;
+    const slider =
+      sliderRef.current;
 
-  if (!slider) return;
+    if (!slider) return;
 
-  let current = 0;
+    let current = 0;
 
-  const cardWidth = 186;
+    const cardWidth = 186;
 
-  const autoSlide =
-    setInterval(() => {
+    const autoSlide =
+      setInterval(() => {
 
-      current++;
+        current++;
 
-      if (
-        current >= 4
-      ) {
+        if (
+          current >= 4
+        ) {
 
-        current = 0;
+          current = 0;
 
-      }
+        }
 
-      slider.scrollTo({
+        slider.scrollTo({
 
-        left:
-          current *
-          cardWidth,
+          left:
+            current *
+            cardWidth,
 
-        behavior:
-          "smooth",
+          behavior:
+            "smooth",
 
-      });
+        });
 
-    }, 2000);
+      }, 4000);
 
-  return () =>
-    clearInterval(
-      autoSlide
-    );
+    return () =>
+      clearInterval(
+        autoSlide
+      );
 
-}, []);
+  }, []);
+
   return (
 
     <div className="home-modern">
 
       <div className="about-container">
+
+        {/* HEADER */}
+
+        <div className="search-header">
+
+          <button
+            className="back-btn"
+            onClick={() =>
+              navigate("/dashboard")
+            }
+          >
+
+            <FaArrowLeft />
+
+          </button>
+
+          <h2>
+            About
+          </h2>
+
+        </div>
 
         {/* TITLE */}
 

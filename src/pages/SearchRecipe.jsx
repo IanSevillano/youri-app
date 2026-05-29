@@ -1,103 +1,71 @@
-import { useNavigate } from "react-router-dom";
+import {
+  useState,
+  useContext,
+} from "react";
 
 import {
   FaArrowLeft,
   FaSearch,
 } from "react-icons/fa";
 
-import { useState } from "react";
+import {
+  useNavigate,
+} from "react-router-dom";
 
-function CariResep() {
+import {
+  RecipeContext,
+} from "../context/RecipeContext";
 
-  const navigate = useNavigate();
+function SearchRecipe() {
 
-  const [ingredient,
-    setIngredient] =
+  const navigate =
+    useNavigate();
+
+  const {
+    recipes,
+  } = useContext(
+    RecipeContext
+  );
+
+  const [search,
+    setSearch] =
     useState("");
 
-  const [selectedCategory,
-    setSelectedCategory] =
-    useState("ALL");
+  const [category,
+    setCategory] =
+    useState("Semua");
 
-  const recipes = [
-
-    {
-      id:"rcp_001",
-
-      title:"Nasi Goreng",
-
-      image:
-        "https://images.unsplash.com/photo-1512058564366-18510be2db19",
-
-      category:"INDONESIAN",
-
-      ingredients:[
-        "NASI",
-        "TELUR",
-        "KECAP ASIN",
-      ],
-    },
-
-    {
-      id:"rcp_002",
-
-      title:"Ayam Bakar",
-
-      image:
-        "https://images.unsplash.com/photo-1490645935967-10de6ba17061",
-
-      category:"DINNER",
-
-      ingredients:[
-        "AYAM",
-        "BAWANG PUTIH",
-        "KECAP ASIN",
-      ],
-    },
-
-    {
-      id:"rcp_003",
-
-      title:"Bakmie Goreng",
-
-      image:
-        "https://images.unsplash.com/photo-1612929633738",
-
-      category:"NOODLES",
-
-      ingredients:[
-        "MIE",
-        "TELUR",
-        "KECAP ASIN",
-      ],
-    },
+  const categories = [
+    "Semua",
+    "Indonesian",
+    "Dinner",
+    "Noodles",
   ];
 
-  /* FILTER RESEP */
-
   const filteredRecipes =
-    recipes.filter((recipe) => {
+    recipes.filter((item) => {
 
-      const search =
-        ingredient.toLowerCase();
-
-      const matchIngredient =
-        recipe.ingredients.some(
-          (item) =>
-            item
-              .toLowerCase()
-              .includes(search)
-        );
+      const matchSearch =
+        item.ingredients
+          .join(" ")
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          );
 
       const matchCategory =
-        selectedCategory ===
-        "ALL"
+        category === "Semua"
+
           ? true
-          : recipe.category ===
-            selectedCategory;
+
+          : item.category
+              .toLowerCase()
+              .includes(
+                category.toLowerCase()
+              );
 
       return (
-        matchIngredient &&
+        matchSearch &&
         matchCategory
       );
     });
@@ -138,14 +106,13 @@ function CariResep() {
           </h1>
 
           <p>
-            Cari resep berdasarkan
-            bahan makanan yang kamu punya.
+            Cari resep berdasarkan bahan makanan yang kamu punya.
           </p>
 
         </div>
 
         <img
-          src="/chef-search.png"
+          src="/sprites/cooking.gif"
           className="search-chef"
         />
 
@@ -160,9 +127,9 @@ function CariResep() {
         <input
           type="text"
           placeholder="contoh : telur, ayam, mie..."
-          value={ingredient}
+          value={search}
           onChange={(e) =>
-            setIngredient(
+            setSearch(
               e.target.value
             )
           }
@@ -174,135 +141,84 @@ function CariResep() {
 
       <div className="filter-row">
 
-        <button
-          className={
-            selectedCategory === "ALL"
-              ? "filter-btn active-filter"
-              : "filter-btn"
-          }
-          onClick={() =>
-            setSelectedCategory(
-              "ALL"
-            )
-          }
-        >
-          Semua
-        </button>
+        {categories.map((item, index) => (
 
-        <button
-          className={
-            selectedCategory ===
-            "INDONESIAN"
-              ? "filter-btn active-filter"
-              : "filter-btn"
-          }
-          onClick={() =>
-            setSelectedCategory(
-              "INDONESIAN"
-            )
-          }
-        >
-          Indonesian
-        </button>
+          <button
+            key={index}
+            className={
+              category === item
 
-        <button
-          className={
-            selectedCategory ===
-            "DINNER"
-              ? "filter-btn active-filter"
-              : "filter-btn"
-          }
-          onClick={() =>
-            setSelectedCategory(
-              "DINNER"
-            )
-          }
-        >
-          Dinner
-        </button>
+                ? "filter-btn active-filter"
 
-        <button
-          className={
-            selectedCategory ===
-            "NOODLES"
-              ? "filter-btn active-filter"
-              : "filter-btn"
-          }
-          onClick={() =>
-            setSelectedCategory(
-              "NOODLES"
-            )
-          }
-        >
-          Noodles
-        </button>
+                : "filter-btn"
+            }
+            onClick={() =>
+              setCategory(item)
+            }
+          >
+
+            {item}
+
+          </button>
+
+        ))}
 
       </div>
 
-      {/* TITLE */}
+      {/* RESULT */}
 
       <h3 className="result-title">
-
         Rekomendasi Resep ✨
-
       </h3>
-
-      {/* GRID */}
 
       <div className="recipe-search-grid">
 
-        {filteredRecipes.map(
-          (item) => (
+        {filteredRecipes.map((item) => (
 
-            <div
-              className="search-card"
-              key={item.id}
-              onClick={() =>
-                navigate(
-                  `/recipe/${item.id}`
-                )
-              }
-            >
+          <div
+            className="search-card"
+            key={item.id}
+            onClick={() =>
+              navigate(
+                `/recipe/${item.id}`
+              )
+            }
+          >
 
-              <img src={item.image} />
+            <img
+              src={item.image}
+            />
 
-              <div className="search-overlay">
+            <div className="search-overlay">
 
-                <div>
+              <h3>
+                {item.title}
+              </h3>
 
-                  <h3>
-                    {item.title}
-                  </h3>
+              <div className="ingredient-chip-row">
 
-                  {/* INGREDIENTS */}
+                {item.ingredients
+                  .slice(0, 3)
+                  .map((ingredient, index) => (
 
-                  <div className="recipe-ingredient-tags">
+                    <span
+                      key={index}
+                      className="ingredient-chip"
+                    >
 
-                    {item.ingredients.map(
-                      (
-                        ingredient,
-                        index
-                      ) => (
+                      {ingredient}
 
-                        <span
-                          key={index}
-                        >
-                          {ingredient}
-                        </span>
+                    </span>
 
-                      )
-                    )}
-
-                  </div>
-
-                </div>
+                  ))}
 
               </div>
 
             </div>
 
-          )
-        )}
+          </div>
+
+        ))}
 
       </div>
 
@@ -311,4 +227,4 @@ function CariResep() {
   );
 }
 
-export default CariResep;
+export default SearchRecipe;

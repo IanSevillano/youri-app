@@ -1,4 +1,7 @@
-import { useState } from "react";
+import {
+  useState,
+  useContext,
+} from "react";
 
 import {
   FaArrowLeft,
@@ -10,75 +13,34 @@ import {
   useNavigate,
 } from "react-router-dom";
 
+import {
+  RecipeContext,
+} from "../context/RecipeContext";
+
 function MyRecipes() {
 
-  const navigate = useNavigate();
+  const navigate =
+    useNavigate();
 
-  const [search, setSearch] =
+  /* CONTEXT */
+
+  const {
+    recipes,
+  } = useContext(
+    RecipeContext
+  );
+
+  /* SEARCH */
+
+  const [search,
+    setSearch] =
     useState("");
 
-  /* TYPE DATA */
-
-  const [recipes] = useState([
-    {
-      id: "rcp_001",
-
-      title: "Nasi Goreng",
-
-      image:
-        "https://images.unsplash.com/photo-1512058564366-18510be2db19",
-
-      category: "MAIN_COURSE",
-
-      ingredients: [
-        "RICE",
-        "EGG",
-        "SOY_SAUCE",
-      ],
-
-      instructions: [
-        "Panaskan minyak",
-        "Masukkan telur",
-        "Masukkan nasi",
-      ],
-
-      duration: {
-        hours: 0,
-        minutes: 20,
-      },
-    },
-
-    {
-      id: "rcp_002",
-
-      title: "Ayam Bakar",
-
-      image:
-        "https://images.unsplash.com/photo-1490645935967-10de6ba17061",
-
-      category: "DINNER",
-
-      ingredients: [
-        "CHICKEN",
-        "ONION",
-        "SOY_SAUCE",
-      ],
-
-      instructions: [
-        "Marinasi ayam",
-        "Bakar ayam",
-        "Sajikan hangat",
-      ],
-
-      duration: {
-        hours: 1,
-        minutes: 0,
-      },
-    },
-  ]);
+  /* FILTER */
 
   const filteredRecipes =
     recipes.filter((item) =>
+
       item.title
         .toLowerCase()
         .includes(
@@ -145,6 +107,31 @@ function MyRecipes() {
 
       </button>
 
+      {/* EMPTY */}
+
+      {filteredRecipes.length
+        === 0 && (
+
+        <div
+          style={{
+
+            textAlign:
+              "center",
+
+            marginTop:
+              "50px",
+
+            color:"#999",
+
+          }}
+        >
+
+          Belum ada resep
+
+        </div>
+
+      )}
+
       {/* GRID */}
 
       <div className="recipe-grid">
@@ -153,14 +140,13 @@ function MyRecipes() {
           (item) => (
 
             <div
-              className="recipe-card-modern"
+              className="
+                recipe-card-modern
+              "
               key={item.id}
               onClick={() =>
                 navigate(
-                  `/recipe/${item.id}`,
-                  {
-                    state: item,
-                  }
+                  `/recipe/${item.id}`
                 )
               }
             >
@@ -193,4 +179,5 @@ function MyRecipes() {
   );
 }
 
-export default MyRecipes;
+export default
+  MyRecipes;

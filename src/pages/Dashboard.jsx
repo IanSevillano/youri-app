@@ -1,7 +1,10 @@
 import {
-  useEffect,
-  useRef,
+  FaFire,
+} from "react-icons/fa";
+
+import {
   useState,
+  useEffect,
 } from "react";
 
 import {
@@ -9,7 +12,7 @@ import {
   useLocation,
 } from "react-router-dom";
 
-function About() {
+function Dashboard() {
 
   const navigate =
     useNavigate();
@@ -17,155 +20,192 @@ function About() {
   const location =
     useLocation();
 
-  const sliderRef =
-    useRef(null);
+  /* DARK MODE */
+
+  const [darkMode] =
+    useState(false);
+
+  /* PROFILE */
 
   const [
-    activeTutorial,
-    setActiveTutorial,
-  ] = useState(0);
-
-  const [
-    showTutorialPopup,
-    setShowTutorialPopup,
+    showProfileMenu,
+    setShowProfileMenu,
   ] = useState(false);
 
-  /* TUTORIAL */
+  const [
+    showLogoutPopup,
+    setShowLogoutPopup,
+  ] = useState(false);
 
-  const tutorials = [
+  /* API DATA */
 
-    {
-      title:
-        "Tutorial Memasak",
+  const [
+    recipes,
+    setRecipes,
+  ] = useState([]);
 
-      description:
-        "Pelajari cara mencari resep dan mulai memasak dengan mudah.",
+  const [
+    dashboardData,
+    setDashboardData,
+  ] = useState(null);
 
-      image:
-        "https://images.unsplash.com/photo-1490645935967-10de6ba17061",
+  /* SPRITE */
 
-      steps: [
-        "Buka Cari Resep",
-        "Cari makanan favorit",
-        "Klik resep",
-        "Mulai memasak",
-      ],
-    },
+  const [
+    currentSprite,
+  ] = useState(
+    "/sprites/cooking.gif"
+  );
 
-    {
-      title:
-        "Tutorial Membuat Resep",
+  /* STREAK */
 
-      description:
-        "Tambahkan resep buatanmu sendiri ke aplikasi Youri.",
-
-      image:
-        "https://images.unsplash.com/photo-1547592180-85f173990554",
-
-      steps: [
-        "Masuk My Recipes",
-        "Klik Tambah Resep",
-        "Isi data resep",
-        "Simpan resep",
-      ],
-    },
-
-    {
-      title:
-        "Tutorial Bahan",
-
-      description:
-        "Lihat bahan tersisa yang berhasil diselamatkan.",
-
-      image:
-        "https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
-
-      steps: [
-        "Masak makanan",
-        "Sisa bahan tersimpan",
-        "Lihat di dashboard",
-      ],
-    },
-
-    {
-      title:
-        "Tutorial Progress",
-
-      description:
-        "Naikkan level dan streak memasak harian.",
-
-      image:
-        "https://images.unsplash.com/photo-1504674900247-0877df9cc836",
-
-      steps: [
-        "Masak setiap hari",
-        "Jaga streak",
-        "Kumpulkan EXP",
-      ],
-    },
-
+  const streakDays = [
+    "Sen",
+    "Sel",
+    "Rab",
+    "Kam",
+    "Jum",
+    "Sab",
+    "Min",
   ];
 
-  /* AUTO SLIDER */
+  /* FETCH DASHBOARD */
+
+  const fetchDashboard =
+    async () => {
+
+      try {
+
+        const response = {
+
+          data: {
+
+            gamification_info: {
+
+              level: 7,
+
+              title:
+                "Chef Amateur",
+
+              remaining_exp: 30,
+
+            },
+
+            saved_ingredients: [
+
+              "Nasi",
+
+              "Telur",
+
+              "Ayam",
+
+              "Bawang Merah",
+
+            ],
+
+          },
+
+        };
+
+        setDashboardData(
+          response.data
+        );
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+    };
+
+  /* FETCH RECIPES */
+
+  const fetchRecipes =
+    async () => {
+
+      try {
+
+        const response = {
+
+          data: [
+
+            {
+
+              recipe_id:
+                "rcp_001",
+
+              title:
+                "Nasi Goreng",
+
+              image_url:
+                "https://images.unsplash.com/photo-1512058564366-18510be2db19",
+
+            },
+
+            {
+
+              recipe_id:
+                "rcp_002",
+
+              title:
+                "Ayam Bakar",
+
+              image_url:
+                "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d",
+
+            },
+
+            {
+
+              recipe_id:
+                "rcp_003",
+
+              title:
+                "Bakmie Goreng",
+
+              image_url:
+                "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841",
+
+            },
+
+          ],
+
+        };
+
+        setRecipes(
+          response.data
+        );
+
+      } catch (error) {
+
+        console.log(error);
+
+      }
+    };
+
+  /* LOAD */
 
   useEffect(() => {
 
-    const slider =
-      sliderRef.current;
+    fetchDashboard();
 
-    if (!slider) return;
-
-    let current = 0;
-
-    const interval =
-      setInterval(() => {
-
-        const cards =
-          slider.children;
-
-        if (
-          !cards.length
-        ) return;
-
-        current++;
-
-        if (
-          current >=
-          cards.length
-        ) {
-
-          current = 0;
-
-        }
-
-        cards[current]
-          .scrollIntoView({
-
-            behavior:
-              "smooth",
-
-            inline:
-              "start",
-
-            block:
-              "nearest",
-
-          });
-
-      }, 5000);
-
-    return () =>
-      clearInterval(
-        interval
-      );
+    fetchRecipes();
 
   }, []);
 
   return (
 
-    <div className="home-modern">
+    <div
+      className={
+        darkMode
 
-      {/* TOPBAR */}
+          ? "home-modern dark-mode"
+
+          : "home-modern"
+      }
+    >
+
+      {/* NAVBAR */}
 
       <div className="topbar">
 
@@ -182,12 +222,109 @@ function About() {
 
         </div>
 
-        <img
-          src="https://i.pravatar.cc/100"
-          className="profile-img"
-        />
+        <div className="top-right">
+
+          <img
+        src="/profile.png"
+        className="profile-img"
+        onClick={() =>
+          setShowProfileMenu(
+        !showProfileMenu
+        )
+        }
+          />
+
+        </div>
 
       </div>
+
+      {/* PROFILE MENU */}
+
+      {showProfileMenu && (
+
+        <div className="profile-popup">
+
+          <button
+            onClick={() =>
+              navigate("/profile")
+            }
+          >
+
+            Edit Profile
+
+          </button>
+
+          <button
+            onClick={() => {
+
+              setShowProfileMenu(
+                false
+              );
+
+              setShowLogoutPopup(
+                true
+              );
+
+            }}
+          >
+
+            Logout
+
+          </button>
+
+        </div>
+
+      )}
+
+      {/* LOGOUT */}
+
+      {showLogoutPopup && (
+
+        <div className="popup-overlay">
+
+          <div className="logout-modal">
+
+            <h1>
+              Konfirmasi
+            </h1>
+
+            <p>
+              yakin mau logout?
+            </p>
+
+            <div className="logout-actions">
+
+              <button
+                className="cancel-btn"
+                onClick={() =>
+                  setShowLogoutPopup(
+                    false
+                  )
+                }
+              >
+
+                Batal
+
+              </button>
+
+              <button
+                className="logout-btn"
+                onClick={() =>
+                  navigate("/")
+                }
+              >
+
+                Logout
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      )}
 
       {/* TABS */}
 
@@ -203,7 +340,9 @@ function About() {
               : "modern-tab"
           }
           onClick={() =>
-            navigate("/dashboard")
+            navigate(
+              "/dashboard"
+            )
           }
         >
 
@@ -220,6 +359,9 @@ function About() {
 
               : "modern-tab"
           }
+          onClick={() =>
+            navigate("/about")
+          }
         >
 
           About
@@ -228,274 +370,231 @@ function About() {
 
       </div>
 
-      {/* TITLE */}
+      {/* LEVEL */}
 
-      <h1 className="about-title">
-        About Youri
-      </h1>
-
-      {/* DESCRIPTION */}
-
-      <p className="about-description">
-
-        Youri adalah aplikasi
-        cooking assistant modern
-        yang membantu pengguna
-        mengelola bahan makanan,
-        menemukan inspirasi resep,
-        melacak progress memasak,
-        dan meningkatkan
-        konsistensi aktivitas
-        memasak setiap hari.
-
-        <br /><br />
-
-        Dengan tampilan yang
-        sederhana namun interaktif,
-        Youri hadir untuk membantu
-        pengalaman memasak menjadi
-        lebih praktis,
-        menyenangkan,
-        dan terorganisir.
-
-      </p>
-
-      {/* HOW TO USE */}
-
-      <h1 className="about-title">
-        How to Use
-      </h1>
-
-      <div className="how-box">
+      <div className="orange-card">
 
         <div>
 
           <h3>
-            {
-              tutorials[
-                activeTutorial
-              ].title
+
+            Level {
+
+              dashboardData
+                ?.gamification_info
+                ?.level
+
             }
+
+            {" - "}
+
+            {
+
+              dashboardData
+                ?.gamification_info
+                ?.title
+
+            }
+
+            ✨
+
           </h3>
 
-          <p>
+          <div className="modern-exp">
 
-            {
-              tutorials[
-                activeTutorial
-              ].description
-            }
-
-          </p>
-
-          <button
-            className="tutorial-btn"
-            onClick={() =>
-              setShowTutorialPopup(
-                true
-              )
-            }
-          >
-
-            Open Tutorial
-
-          </button>
-
-          {/* DOTS */}
-
-          <div className="dots">
-
-            {tutorials.map(
-              (_, index) => (
-
-                <span
-                  key={index}
-                  onClick={() =>
-                    setActiveTutorial(
-                      index
-                    )
-                  }
-                  className={
-                    activeTutorial ===
-                    index
-
-                      ? "active-dot"
-
-                      : ""
-                  }
-                ></span>
-
-              )
-            )}
+            <div className="modern-fill"></div>
 
           </div>
 
-        </div>
-
-        <img
-          src={
-            tutorials[
-              activeTutorial
-            ].image
-          }
-          className="tutorial-image"
-        />
-
-      </div>
-
-      {/* TEAM */}
-
-      <h1 className="about-title">
-        Our Team
-      </h1>
-
-      <div
-        className="team-slider"
-        ref={sliderRef}
-      >
-
-        <div className="team-card">
-
-          <img
-            src="https://i.pravatar.cc/200?img=1"
-            className="team-image"
-          />
-
-          <h3>
-            Septian
-          </h3>
-
           <p>
-            Frontend Developer
+
+            {
+
+              dashboardData
+                ?.gamification_info
+                ?.remaining_exp
+
+            }
+
+            {" "}Exp menuju level berikutnya
+
           </p>
 
         </div>
 
-        <div className="team-card">
+        {/* SPRITE */}
+
+        <div className="mini-mascot">
 
           <img
-            src="https://i.pravatar.cc/200?img=2"
-            className="team-image"
+            src={currentSprite}
+            className="dashboard-sprite"
           />
-
-          <h3>
-            Rifki
-          </h3>
-
-          <p>
-            Backend Developer
-          </p>
-
-        </div>
-
-        <div className="team-card">
-
-          <img
-            src="https://i.pravatar.cc/200?img=3"
-            className="team-image"
-          />
-
-          <h3>
-            Aulia
-          </h3>
-
-          <p>
-            Data Analyst
-          </p>
-
-        </div>
-
-        <div className="team-card">
-
-          <img
-            src="https://i.pravatar.cc/200?img=4"
-            className="team-image"
-          />
-
-          <h3>
-            Nanda
-          </h3>
-
-          <p>
-            AI Machine Learning
-          </p>
 
         </div>
 
       </div>
 
-      {/* POPUP */}
+      {/* STREAK */}
 
-      {showTutorialPopup && (
+      <h3 className="modern-section">
 
-        <div className="popup-overlay">
+        🔥 Streak masak kamu
 
-          <div className="tutorial-modal">
+      </h3>
 
-            <h1>
+      <div className="modern-streak">
 
-              {
-                tutorials[
-                  activeTutorial
-                ].title
-              }
+        {streakDays.map(
+          (day, index) => (
 
-            </h1>
+            <div key={index}>
 
-            <div className="tutorial-list">
+              <div
+                className={
+                  index < 4
 
-              {
-                tutorials[
-                  activeTutorial
-                ].steps.map(
-                  (
-                    item,
-                    index
-                  ) => (
+                    ? "fire-box active-fire"
 
-                    <div
-                      className="tutorial-item"
-                      key={index}
-                    >
+                    : "fire-box"
+                }
+              >
 
-                      <span>
-                        {index + 1}
-                      </span>
+                <FaFire />
 
-                      <p>
-                        {item}
-                      </p>
+              </div>
 
-                    </div>
-
-                  )
-                )
-              }
+              <p>
+                {day}
+              </p>
 
             </div>
 
-            <button
-              className="close-tutorial-btn"
-              onClick={() =>
-                setShowTutorialPopup(
-                  false
-                )
-              }
-            >
+          )
+        )}
 
-              Mengerti
+      </div>
 
-            </button>
+      {/* SAVED INGREDIENT */}
 
-          </div>
+      <div
+        className="ingredient-box"
+        onClick={() =>
+          navigate(
+            "/saved-ingredients"
+          )
+        }
+      >
+
+        <div>
+
+          <h4>
+            🥬 Bahan Terselamatkan
+          </h4>
+
+          <p>
+
+            {
+              dashboardData
+                ?.saved_ingredients
+                ?.join(", ")
+            }
+
+          </p>
 
         </div>
 
-      )}
+        <span>
+          Lihat →
+        </span>
+
+      </div>
+
+      {/* MY RECIPES */}
+
+      <div
+        className="recipe-save"
+        onClick={() =>
+          navigate(
+            "/my-recipes"
+          )
+        }
+      >
+
+        📖 Cek Resep yang udah kamu buat
+
+      </div>
+
+      {/* FLOATING BUTTON */}
+
+      <button
+        className="floating-cook-btn"
+        onClick={() =>
+          navigate(
+            "/search-recipe"
+          )
+        }
+      >
+
+        🍳
+
+      </button>
+
+      {/* REKOMENDASI */}
+
+      <h3 className="modern-section">
+
+        Bingung mau masak apa?
+        Rekomendasi nih! 🍜
+
+      </h3>
+
+      <div className="modern-grid">
+
+        {recipes.map(
+          (item, index) => (
+
+            <div
+              className="modern-recipe"
+              key={index}
+            >
+
+              <img
+                src={
+                  item.image_url
+                }
+              />
+
+              <div className="recipe-overlay">
+
+                <h3>
+                  {item.title}
+                </h3>
+
+                <button
+                  onClick={() =>
+                    navigate(
+                      `/recipe/${item.recipe_id}`
+                    )
+                  }
+                >
+
+                  More ›
+
+                </button>
+
+              </div>
+
+            </div>
+
+          )
+        )}
+
+      </div>
 
     </div>
 
   );
 }
 
-export default About;
+export default Dashboard;

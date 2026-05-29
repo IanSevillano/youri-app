@@ -1821,3 +1821,482 @@ body{
 
   transform:scale(1.2);
 }
+
+/* SAVED INGREDIENT */
+
+.saved-grid{
+  display:grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap:16px;
+}
+
+.saved-card{
+  background:white;
+
+  border-radius:24px;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0,0,0,.08);
+}
+
+.saved-card img{
+  width:100%;
+
+  height:140px;
+
+  object-fit:cover;
+}
+
+.saved-content{
+  padding:14px;
+}
+
+.saved-content h3{
+  margin-bottom:6px;
+}
+
+.saved-content p{
+  color:#777;
+}
+
+/* SPRITE */
+
+.sprite-wrapper{
+  display:flex;
+
+  align-items:flex-end;
+
+  gap:12px;
+
+  margin:20px 0;
+}
+
+.sprite-image{
+  width:90px;
+  height:90px;
+
+  object-fit:contain;
+}
+
+.sprite-dialog{
+  background:white;
+
+  padding:14px 18px;
+
+  border-radius:20px;
+
+  box-shadow:
+    0 4px 12px
+    rgba(0,0,0,.08);
+
+  max-width:220px;
+
+  font-size:14px;
+}
+
+/* LEVEL POPUP */
+
+.level-modal{
+  background:white;
+
+  padding:30px;
+
+  border-radius:30px;
+
+  text-align:center;
+
+  width:90%;
+}
+
+.level-sprite{
+  width:120px;
+
+  margin-bottom:20px;
+}
+
+.dashboard-sprite{
+  width:100%;
+  height:100%;
+
+  object-fit:contain;
+}
+
+.mini-mascot{
+  width:86px;
+  height:86px;
+
+  background:
+    rgba(255,255,255,.25);
+
+  border-radius:24px;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  overflow:hidden;
+
+  backdrop-filter:blur(6px);
+}
+
+/* COOKING ASSISTANT */
+
+.cooking-assistant{
+  display:flex;
+
+  align-items:center;
+
+  gap:14px;
+
+  margin:24px 0;
+}
+
+.cooking-sprite{
+  width:70px;
+  height:70px;
+
+  object-fit:contain;
+}
+
+.assistant-chat{
+  background:#fff4ea;
+
+  padding:14px 16px;
+
+  border-radius:18px;
+
+  font-size:14px;
+
+  color:#444;
+}
+
+/* CHIP */
+
+.ingredient-chip-row{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:8px;
+
+  margin-top:10px;
+}
+
+.ingredient-chip{
+  background:
+    rgba(255,255,255,.25);
+
+  backdrop-filter:blur(6px);
+
+  color:white;
+
+  padding:6px 12px;
+
+  border-radius:30px;
+
+  font-size:12px;
+
+  font-weight:600;
+}
+
+/* FINISH BUTTON */
+
+.finish-cook-btn{
+  width:100%;
+
+  margin-top:30px;
+
+  border:none;
+
+  background:linear-gradient(
+    to right,
+    #ff9d45,
+    #ff6f00
+  );
+
+  color:white;
+
+  padding:16px;
+
+  border-radius:20px;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  gap:10px;
+}
+
+/* SUCCESS */
+
+.cook-success-card{
+  margin-top:25px;
+
+  background:#fff4ea;
+
+  border-radius:24px;
+
+  padding:25px;
+
+  text-align:center;
+}
+
+.success-sprite{
+  width:100px;
+
+  margin-bottom:10px;
+}
+
+/* TIMER */
+
+.cook-progress{
+  margin:25px 0;
+}
+
+.progress-bar{
+  width:100%;
+  height:12px;
+
+  background:#eee;
+
+  border-radius:20px;
+
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+
+  background:linear-gradient(
+    to right,
+    #ffb347,
+    #ff7a00
+  );
+
+  transition:.3s;
+}
+
+/* STEP */
+
+.current-step-card{
+  background:#fff4ea;
+
+  padding:20px;
+
+  border-radius:24px;
+
+  margin:25px 0;
+}
+
+.current-step-card h3{
+  margin-bottom:12px;
+}
+
+.current-step-card p{
+  line-height:1.7;
+}
+
+/* ACTIVE STEP */
+
+.active-step{
+  color:#ff7a00;
+
+  font-weight:bold;
+}
+
+/* BUTTON */
+
+.start-cook-btn,
+.next-step-btn,
+.back-dashboard-btn{
+
+  width:100%;
+
+  border:none;
+
+  padding:16px;
+
+  border-radius:20px;
+
+  color:white;
+
+  font-weight:bold;
+
+  cursor:pointer;
+
+  margin-top:20px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:10px;
+}
+
+.start-cook-btn{
+  background:
+    linear-gradient(
+      to right,
+      #ffb347,
+      #ff7a00
+    );
+}
+
+.next-step-btn{
+  background:
+    linear-gradient(
+      to right,
+      #ff9d45,
+      #ff6f00
+    );
+}
+
+.back-dashboard-btn{
+  background:#222;
+}
+
+/* SUCCESS */
+
+.cook-success-card{
+  margin-top:30px;
+
+  background:#fff4ea;
+
+  padding:30px;
+
+  border-radius:28px;
+
+  text-align:center;
+}
+
+.success-sprite{
+  width:100px;
+
+  height:100px;
+
+  object-fit:contain;
+
+  margin-bottom:15px;
+}
+
+/* SPLASH SCREEN */
+
+.splash-screen{
+  width:100%;
+  max-width:430px;
+
+  min-height:100vh;
+
+  margin:auto;
+
+  background:
+    linear-gradient(
+      to bottom,
+      #ff9d45,
+      #ff6f00
+    );
+
+  display:flex;
+  flex-direction:column;
+
+  justify-content:center;
+  align-items:center;
+
+  color:white;
+
+  overflow:hidden;
+}
+
+.splash-logo{
+  width:130px;
+  height:130px;
+
+  object-fit:cover;
+
+  margin-bottom:20px;
+
+  animation:
+    floatLogo 2s ease-in-out infinite;
+}
+
+.splash-title{
+  font-size:52px;
+
+  font-weight:800;
+
+  margin-bottom:10px;
+}
+
+.splash-subtitle{
+  font-size:18px;
+
+  opacity:.9;
+
+  margin-bottom:50px;
+}
+
+.loading-bar{
+  width:220px;
+  height:10px;
+
+  background:
+    rgba(255,255,255,.3);
+
+  border-radius:20px;
+
+  overflow:hidden;
+}
+
+.loading-fill{
+  width:0%;
+
+  height:100%;
+
+  background:white;
+
+  border-radius:20px;
+
+  animation:
+    loadingAnim 3s linear forwards;
+}
+
+/* ANIMATION */
+
+@keyframes loadingAnim{
+
+  from{
+    width:0%;
+  }
+
+  to{
+    width:100%;
+  }
+}
+
+@keyframes floatLogo{
+
+  0%{
+    transform:
+      translateY(0px);
+  }
+
+  50%{
+    transform:
+      translateY(-10px);
+  }
+
+  100%{
+    transform:
+      translateY(0px);
+  }
+}
